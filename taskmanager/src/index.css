@@ -1,0 +1,15 @@
+li{
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+}
+button,input{
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+h1{
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  margin-left: 10px;
+}
