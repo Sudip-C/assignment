@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.js
+import React, { Suspense, lazy } from 'react';
+import {  useDispatch, useSelector } from 'react-redux';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { addTask, deleteTask } from './redux/taskSlice';
+
+const TaskList = lazy(() => import('./components/TaskList'));
+
+const App = () => {
+  const dispatch = useDispatch();
+  const tasks = useSelector(state => state.tasks);
+  const [taskName, setTaskName] = React.useState('');
+
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    if (taskName.trim()) {
+      dispatch(addTask({ id: Date.now(), name: taskName }));
+      setTaskName('');
+    }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    dispatch(deleteTask(taskId));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <h1>Task Manager</h1>
+      <form onSubmit={handleAddTask}>
+        <input
+          type="text"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          placeholder="Add a new task"
+        />
+        <button type="submit">Add Task</button>
+      </form>
+      <Suspense fallback={<div>Loading tasks...</div>}>
+        <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+      </Suspense>
+    </div>
+  );
+};
 
 export default App
