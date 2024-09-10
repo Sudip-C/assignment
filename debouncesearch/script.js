@@ -1,4 +1,4 @@
-// script.js
+
 
 // Simulated API call function
 function fetchResults(query) {
@@ -7,7 +7,7 @@ function fetchResults(query) {
         const results = ['apple', 'banana', 'apricot', 'blueberry', 'grape'];
         const filteredResults = results.filter(item => item.includes(query));
         resolve(filteredResults);
-      }, 1000); // Simulating network delay
+      }, 1000); 
     });
   }
   
@@ -43,11 +43,11 @@ function fetchResults(query) {
       } else {
         updateResults([]);
       }
-    }, 500); // Debounce delay of 500 milliseconds
+    }, 500); 
   
     searchInput.addEventListener('input', debouncedFetchResults);
   }
   
-  // Initialize the application
+  
   document.addEventListener('DOMContentLoaded', handleSearchInput);
   
